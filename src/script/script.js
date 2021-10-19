@@ -134,3 +134,24 @@ function newSome(array, callback) {
     }
 }
 testNewSome(testArray)
+
+//EVERY
+const testNewEvery = (test)=>{
+    const callback = a =>a%2===0
+    const esperado = test.every(callback).toString()
+    console.assert(newEvery(test,callback).toString()===esperado,
+    `Função: newEvery`,
+    `Resultado: ${newEvery(test,callback).toString()}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newEvery(array, callback) {
+    for (let index = 0; index < array.length; index++){
+        const currentValue = array[index]
+        if(!callback(currentValue,index,array))
+            return false
+    }
+    return true
+}
+testNewEvery(testArray)
