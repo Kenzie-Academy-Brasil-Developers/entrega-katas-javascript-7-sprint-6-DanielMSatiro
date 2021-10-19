@@ -222,4 +222,51 @@ function newIndexOf(array,a,b=0) {
     }
     return -1
 }
-testNewIncludes(testArray,4,1)
+testNewIndexOf(testArray,3,1)
+
+//CONCAT
+const testNewConcat = (test,a,b)=>{
+    const esperado = JSON.stringify(test.concat(a,b))
+    console.assert(JSON.stringify(newConcat(test,a,b))===esperado,
+    `Função: newConcat`,
+    `Resultado: ${JSON.stringify(newConcat(test,a,b))}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newConcat(...arguments) {
+    let newArray = [...arguments[0]]
+    for (let i = 1; i < arguments.length; i++){
+        if(Array.isArray(arguments[i])){
+            for(let j = 0; j < arguments[i].length; j++){
+                newArray.push(arguments[i][j])
+            }
+        } else {
+            newArray.push(arguments[i])
+        }
+    }
+    return newArray
+}
+testNewConcat(testArray,3,[2,3,5],[2,2,2,2])
+
+//JOIN()
+const testNewJoin = (test,a)=>{
+    const esperado = test.join(a)
+    console.assert(newJoin(test,a)===esperado,
+    `Função: newJoin`,
+    `Resultado: ${newJoin(test,a)}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newJoin(array,a) {
+    let string = ''
+    for(let i = 0; i < array.length; i++){
+        string+= array[i].toString()
+        if(i!==array.length-1){
+            string+= a
+        }
+    }
+    return string
+}
+testNewJoin(testArray,',')
