@@ -155,3 +155,50 @@ function newEvery(array, callback) {
     return true
 }
 testNewEvery(testArray)
+
+//FILL
+const testNewFill = (test,a,b,c)=>{
+    const esperado = test.fill(a,b,c).toString()
+    console.assert(newFill(test,a,b,c).toString()===esperado,
+    `Função: newFill`,
+    `Resultado: ${newFill(test,a,b,c).toString()}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newFill(array,a,b=0,c=array.length) {
+    if(b<0){
+        b=array.length+b    
+    }
+    if(c<0){
+        c=array.length+c    
+    }
+    for (let index = b; index < c; index++){
+        array[index] = a
+    }
+    return array
+}
+testNewFill(testArray,2,1,3)
+
+//INCLUDES
+const testNewIncludes = (test,a,b)=>{
+    const esperado = test.includes(a,b).toString()
+    console.assert(newIncludes(test,a,b).toString()===esperado,
+    `Função: newIncludes`,
+    `Resultado: ${newIncludes(test,a,b).toString()}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newIncludes(array,a,b=0) {
+    if(b<0){
+        b = array.length+b
+    }
+    for (let index = b; index < array.length; index++){
+        if(a===array[index])
+            return true
+    }
+    return false
+}
+testNewIncludes(testArray,3,-3)
+
