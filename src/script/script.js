@@ -202,3 +202,24 @@ function newIncludes(array,a,b=0) {
 }
 testNewIncludes(testArray,3,-3)
 
+//INDEXOF
+const testNewIndexOf = (test,a,b)=>{
+    const esperado = test.indexOf(a,b).toString()
+    console.assert(newIndexOf(test,a,b).toString()===esperado,
+    `Função: newIndexOf`,
+    `Resultado: ${newIndexOf(test,a,b).toString()}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newIndexOf(array,a,b=0) {
+    if(b<0){
+        b = array.length+b
+    }
+    for (let index = b; index < array.length; index++){
+        if(a===array[index])
+            return index
+    }
+    return -1
+}
+testNewIncludes(testArray,4,1)
