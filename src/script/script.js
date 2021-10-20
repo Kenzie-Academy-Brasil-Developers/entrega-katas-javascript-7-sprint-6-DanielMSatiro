@@ -375,7 +375,6 @@ function newFlatMap(array,callback) {
             newArray.push(arrayMap[i])
         }
     }
-    console.log(arrayMap,newArray)
     return newArray
 }
 
