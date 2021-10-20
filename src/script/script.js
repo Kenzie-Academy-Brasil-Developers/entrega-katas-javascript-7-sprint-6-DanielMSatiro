@@ -9,16 +9,19 @@ function newForEach(array, callback) {
 //ARRAY PARA TESTE
 const testArray = [1,2,3,4,5]
 
-/* NOTA: Alguns métodos, de acordo com o mdn, não possuem callback
- como parâmetro de entrada. Então, não compreendi como fazer
-  callback internamente nestes casos. Tentei reproduzir o melhor que eu
-  eu acredito que poderia acontecer por "baixo dos panos".
-  Se houver uma forma diferente, gostaria de apoio de um coach
-  para me ajudar na compreensão. Para todos os casos tentei programar
-  um teste simples antes de fazer a função em si. Outro ponto é o thisArg,
-  que é um parâmetro opcional em algumas funções. Mas, não tentei reproduzir
-  nesta tarefa, pois acredito que não era o foco dela. Se for, gostaria
-  de um auxílio neste caso também.*/
+/* NOTA de correção:
+-> SOME: a função newSome não retorna false quando necessário;
+-> EVERY: a função newEvery estava com a lógica errada;
+-> JOIN: tinha um erro quando o separador não era informado;
+-> REDUCE: a função não considerava quando initialValue fosse null e ao mesmo
+tempo o array fosse vazio. Gerei, portanto, um type Error para este caso.
+-> FLATMAP: foi ressaltado de que haveria erro nesta função, mas ela retorna
+o valor corretamente conforme especificado no mdn. Fiz mais alguns testes
+e usando o teste usado pelo coach, mas o resultado é mesmo, quando aplicado
+tando o .flatMap() quando newFlatMap(). O coach mencionou de que o deveria pri-
+meiro ocorrer o flat, para depois a ação do map, mas de acordo com o mdn, não é
+isso que ocorre.
+ */
 
 //MAP
 //--------------------------------------------------------------------------------------------------------------
@@ -109,18 +112,22 @@ testNewFindIndex(testArray)
 
 //REDUCE
 //--------------------------------------------------------------------------------------------------------------
-const testNewReduce = (test)=>{
+const testNewReduce = (test,c=null)=>{
     const callback = (a,b) => a+b
-    const initialValue = null
-    const esperado = test.reduce(callback,initialValue).toString()
-    console.assert(newReduce(test,callback,initialValue).toString()===esperado,
+    const initialValue = c
+    const esperado = test.reduce(callback,initialValue)
+    console.assert(newReduce(test,callback,initialValue)===esperado,
     `Função: newReduce`,
-    `Resultado: ${newReduce(test,callback,initialValue).toString()}`,
+    `Resultado: ${newReduce(test,callback,initialValue)}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newReduce (array,callback,initialValue) {
+function newReduce (array,callback,initialValue=null) {
+    if(array.length===0&&initialValue===null){
+        throw new TypeError('Reduce possui um array vazio sem um valor inicial')
+        return null
+    }
     let acc = initialValue===null?array[0]:initialValue
     let initialIndex = initialValue===null?1:0
     for (let index = initialIndex; index < array.length; index++){
@@ -129,6 +136,10 @@ function newReduce (array,callback,initialValue) {
     }
     return acc
 }
+//testNewReduce([])//Gera um TypeError, conforme reduce...
+testNewReduce([],0)
+testNewReduce([2,2,2],2)
+testNewReduce([3,5,9])
 testNewReduce(testArray)
 
 //SOME
@@ -149,7 +160,9 @@ function newSome(array, callback) {
         if(callback(currentValue,index,array))
             return true
     }
+    return false
 }
+testNewSome([1,3,5,7])
 testNewSome(testArray)
 
 //EVERY
@@ -167,11 +180,10 @@ const testNewEvery = (test)=>{
 function newEvery(array, callback) {
     for (let index = 0; index < array.length; index++){
         const currentValue = array[index]
-        if(!callback(currentValue,index,array))
-            return false
+        return callback(currentValue,index,array)
     }
-    return true
 }
+testNewEvery([2,2,2,2])
 testNewEvery(testArray)
 
 //FILL
@@ -282,16 +294,18 @@ const testNewJoin = (test,a)=>{
     )
 }
 
-function newJoin(array,a) {
+function newJoin(array,a=',') {
     let string = ''
     for(let i = 0; i < array.length; i++){
-        string+= array[i].toString()
+        string+= array[i]
         if(i!==array.length-1){
             string+= a
         }
     }
     return string
 }
+testNewJoin([])
+testNewJoin(['olá',2,2,2])
 testNewJoin(testArray,',')
 
 //SLICE()
@@ -355,8 +369,7 @@ testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],3)
 
 //FLATMAP()
 //--------------------------------------------------------------------------------------------------------------
-const testNewFlatMap = (test)=>{
-    const callback = a =>a%2===0?[a*2]:a
+const testNewFlatMap = (test,callback)=>{
     const esperado = JSON.stringify(test.flatMap(callback))
     console.assert(JSON.stringify(newFlatMap(test,callback))===esperado,
     `Função: newFlatMap`,
@@ -377,5 +390,7 @@ function newFlatMap(array,callback) {
     }
     return newArray
 }
-
-testNewFlatMap(testArray)
+testNewFlatMap([2,3,[3]],a=>a+2)
+//Descomente a linha abaixo:
+//console.log(newFlatMap([2,3,[3]],a=>a+2),[2,3,[3]].flatMap(a=>a+2))
+testNewFlatMap(testArray,a =>a%2===0?[a*2]:a)
