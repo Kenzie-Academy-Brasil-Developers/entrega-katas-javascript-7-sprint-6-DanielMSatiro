@@ -9,7 +9,19 @@ function newForEach(array, callback) {
 //ARRAY PARA TESTE
 const testArray = [1,2,3,4,5]
 
+/* NOTA: Alguns métodos, de acordo com o mdn, não possuem callback
+ como parâmetro de entrada. Então, não compreendi como fazer
+  callback internamente nestes casos. Tentei reproduzir o melhor que eu
+  eu acredito que poderia acontecer por "baixo dos panos".
+  Se houver uma forma diferente, gostaria de apoio de um coach
+  para me ajudar na compreensão. Para todos os casos tentei programar
+  um teste simples antes de fazer a função em si. Outro ponto é o thisArg,
+  que é um parâmetro opcional em algumas funções. Mas, não tentei reproduzir
+  nesta tarefa, pois acredito que não era o foco dela. Se for, gostaria
+  de um auxílio neste caso também.*/
+
 //MAP
+//--------------------------------------------------------------------------------------------------------------
 const testNewMap = (test)=>{
     const callback = a =>a*2
     const esperado = test.map(callback).toString()
@@ -31,6 +43,7 @@ function newMap(array, callback) {
 testNewMap(testArray)
 
 //FILTER
+//--------------------------------------------------------------------------------------------------------------
 const testNewFilter = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.filter(callback).toString()
@@ -53,6 +66,7 @@ function newFilter(array, callback) {
 testNewFilter(testArray)
 
 //FIND
+//--------------------------------------------------------------------------------------------------------------
 const testNewFind = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.find(callback).toString()
@@ -73,6 +87,7 @@ function newFind (array, callback) {
 testNewFind(testArray)
 
 //FINDINDEX
+//--------------------------------------------------------------------------------------------------------------
 const testNewFindIndex = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.findIndex(callback).toString()
@@ -93,6 +108,7 @@ function newFindIndex (array, callback) {
 testNewFindIndex(testArray)
 
 //REDUCE
+//--------------------------------------------------------------------------------------------------------------
 const testNewReduce = (test)=>{
     const callback = (a,b) => a+b
     const initialValue = null
@@ -116,6 +132,7 @@ function newReduce (array,callback,initialValue) {
 testNewReduce(testArray)
 
 //SOME
+//--------------------------------------------------------------------------------------------------------------
 const testNewSome = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.some(callback).toString()
@@ -136,6 +153,7 @@ function newSome(array, callback) {
 testNewSome(testArray)
 
 //EVERY
+//--------------------------------------------------------------------------------------------------------------
 const testNewEvery = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.every(callback).toString()
@@ -157,6 +175,7 @@ function newEvery(array, callback) {
 testNewEvery(testArray)
 
 //FILL
+//--------------------------------------------------------------------------------------------------------------
 const testNewFill = (test,a,b,c)=>{
     const esperado = test.fill(a,b,c).toString()
     console.assert(newFill(test,a,b,c).toString()===esperado,
@@ -181,6 +200,7 @@ function newFill(array,a,b=0,c=array.length) {
 testNewFill(testArray,2,1,3)
 
 //INCLUDES
+//--------------------------------------------------------------------------------------------------------------
 const testNewIncludes = (test,a,b)=>{
     const esperado = test.includes(a,b).toString()
     console.assert(newIncludes(test,a,b).toString()===esperado,
@@ -203,6 +223,7 @@ function newIncludes(array,a,b=0) {
 testNewIncludes(testArray,3,-3)
 
 //INDEXOF
+//--------------------------------------------------------------------------------------------------------------
 const testNewIndexOf = (test,a,b)=>{
     const esperado = test.indexOf(a,b).toString()
     console.assert(newIndexOf(test,a,b).toString()===esperado,
@@ -225,6 +246,7 @@ function newIndexOf(array,a,b=0) {
 testNewIndexOf(testArray,3,1)
 
 //CONCAT
+//--------------------------------------------------------------------------------------------------------------
 const testNewConcat = (test,a,b)=>{
     const esperado = JSON.stringify(test.concat(a,b))
     console.assert(JSON.stringify(newConcat(test,a,b))===esperado,
@@ -250,6 +272,7 @@ function newConcat(...arguments) {
 testNewConcat(testArray,3,[2,3,5],[2,2,2,2])
 
 //JOIN()
+//--------------------------------------------------------------------------------------------------------------
 const testNewJoin = (test,a)=>{
     const esperado = test.join(a)
     console.assert(newJoin(test,a)===esperado,
@@ -272,6 +295,7 @@ function newJoin(array,a) {
 testNewJoin(testArray,',')
 
 //SLICE()
+//--------------------------------------------------------------------------------------------------------------
 const testNewSlice = (test,a,b)=>{
     const esperado = test.slice(a,b).toString()
     console.assert(newSlice(test,a,b).toString()===esperado,
@@ -300,6 +324,7 @@ function newSlice(array,a=0,b=array.length) {
 testNewSlice(testArray,2,4)
 
 //FLAT()
+//--------------------------------------------------------------------------------------------------------------
 const testNewFlat = (test,a)=>{
     const esperado = JSON.stringify(test.flat(a))
     console.assert(JSON.stringify(newFlat(test,a))===esperado,
@@ -329,6 +354,7 @@ function newFlat(array,a=1) {
 testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],3)
 
 //FLATMAP()
+//--------------------------------------------------------------------------------------------------------------
 const testNewFlatMap = (test)=>{
     const callback = a =>a%2===0?[a*2]:a
     const esperado = JSON.stringify(test.flatMap(callback))
