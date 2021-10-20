@@ -313,7 +313,7 @@ function newFlat(array,a=1) {
     let newArray=[]
     let nivel = a-1
     for(let i = 0; i < array.length; i++){
-        if(Array.isArray(array[i])){
+        if(Array.isArray(array[i])&&nivel>=0){
             if(!nivel){
                 newArray = newArray.concat(array[i])
             } else {
@@ -327,4 +327,4 @@ function newFlat(array,a=1) {
     return newArray
 }
 
-testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],1)
+testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],3)
