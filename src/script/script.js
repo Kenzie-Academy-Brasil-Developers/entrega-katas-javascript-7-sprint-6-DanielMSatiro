@@ -282,7 +282,6 @@ const testNewSlice = (test,a,b)=>{
 }
 
 function newSlice(array,a=0,b=array.length) {
-    console.log(array)
     if(a<0){
         a=array.length+a    
     }
@@ -300,3 +299,32 @@ function newSlice(array,a=0,b=array.length) {
 }
 testNewSlice(testArray,2,4)
 
+//FLAT()
+const testNewFlat = (test,a)=>{
+    const esperado = JSON.stringify(test.flat(a))
+    console.assert(JSON.stringify(newFlat(test,a))===esperado,
+    `Função: newFlat`,
+    `Resultado: ${JSON.stringify(newFlat(test,a))}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newFlat(array,a=1) {
+    let newArray=[]
+    let nivel = a-1
+    for(let i = 0; i < array.length; i++){
+        if(Array.isArray(array[i])){
+            if(!nivel){
+                newArray = newArray.concat(array[i])
+            } else {
+                newArray = newArray.concat(newFlat(array[i],nivel))
+            }
+        } else if(array[i]!==undefined){
+            newArray.push(array[i])
+        }
+    }
+    console.log(newArray,array.flat(a))
+    return newArray
+}
+
+testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],1)
