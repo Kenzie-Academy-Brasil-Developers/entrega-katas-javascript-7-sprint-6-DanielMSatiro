@@ -270,3 +270,33 @@ function newJoin(array,a) {
     return string
 }
 testNewJoin(testArray,',')
+
+//SLICE()
+const testNewSlice = (test,a,b)=>{
+    const esperado = test.slice(a,b).toString()
+    console.assert(newSlice(test,a,b).toString()===esperado,
+    `Função: newSlice`,
+    `Resultado: ${newSlice(test,a,b).toString()}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newSlice(array,a=0,b=array.length) {
+    console.log(array)
+    if(a<0){
+        a=array.length+a    
+    }
+    if(b<0){
+        b=array.length+b    
+    }
+    if(b>array.length){
+        b=array.length
+    }
+    let newArray = []
+    for (let index = a; index < b; index++){
+        newArray.push(array[index])
+    }
+    return newArray
+}
+testNewSlice(testArray,2,4)
+
