@@ -315,16 +315,42 @@ function newFlat(array,a=1) {
     for(let i = 0; i < array.length; i++){
         if(Array.isArray(array[i])&&nivel>=0){
             if(!nivel){
-                newArray = newArray.concat(array[i])
+                newArray = newConcat(newArray,array[i])
             } else {
-                newArray = newArray.concat(newFlat(array[i],nivel))
+                newArray = newConcat(newArray,newFlat(array[i],nivel))
             }
         } else if(array[i]!==undefined){
             newArray.push(array[i])
         }
     }
-    console.log(newArray,array.flat(a))
     return newArray
 }
 
 testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],3)
+
+//FLATMAP()
+const testNewFlatMap = (test)=>{
+    const callback = a =>a%2===0?[a*2]:a
+    const esperado = JSON.stringify(test.flatMap(callback))
+    console.assert(JSON.stringify(newFlatMap(test,callback))===esperado,
+    `Função: newFlatMap`,
+    `Resultado: ${JSON.stringify(newFlatMap(test,callback))}`,
+    `Esperado: ${esperado}`
+    )
+}
+
+function newFlatMap(array,callback) {
+    let arrayMap = newMap(array, callback)
+    let newArray=[]
+    for(let i = 0; i < arrayMap.length; i++){
+        if(Array.isArray(arrayMap[i])){
+            newArray = newConcat(newArray,arrayMap[i])
+        } else if(arrayMap[i]!==undefined){
+            newArray.push(arrayMap[i])
+        }
+    }
+    console.log(arrayMap,newArray)
+    return newArray
+}
+
+testNewFlatMap(testArray)
