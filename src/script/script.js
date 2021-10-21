@@ -1,45 +1,31 @@
 //FOREACH()
-function newForEach(array, callback) {
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        callback(currentValue,index,array)
+Array.prototype.newForEach = function (callback) {
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        callback(currentValue,index,this)
     }
 }
 
 //ARRAY PARA TESTE
 const testArray = [1,2,3,4,5]
 
-/* NOTA de correção:
--> SOME: a função newSome não retorna false quando necessário;
--> EVERY: a função newEvery estava com a lógica errada;
--> JOIN: tinha um erro quando o separador não era informado;
--> REDUCE: a função não considerava quando initialValue fosse null e ao mesmo
-tempo o array fosse vazio. Gerei, portanto, um type Error para este caso.
--> FLATMAP: foi ressaltado de que haveria erro nesta função, mas ela retorna
-o valor corretamente conforme especificado no mdn. Fiz mais alguns testes
-e usando o teste usado pelo coach, mas o resultado é mesmo, quando aplicado
-tando o .flatMap() quando newFlatMap(). O coach mencionou de que o deveria pri-
-meiro ocorrer o flat, para depois a ação do map, mas de acordo com o mdn, não é
-isso que ocorre.
- */
-
 //MAP
 //--------------------------------------------------------------------------------------------------------------
 const testNewMap = (test)=>{
     const callback = a =>a*2
     const esperado = test.map(callback).toString()
-    console.assert(newMap(test,callback).toString()===esperado,
+    console.assert(test.newMap(callback).toString()===esperado,
     `Função: newMap`,
-    `Resultado: ${newMap(test,callback).toString()}`,
+    `Resultado: ${test.newMap(callback).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newMap(array, callback) {
+Array.prototype.newMap = function (callback) {
     const newArray = []
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        newArray.push(callback(currentValue,index,array))
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        newArray.push(callback(currentValue,index,this))
     }
     return newArray
 }
@@ -50,18 +36,18 @@ testNewMap(testArray)
 const testNewFilter = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.filter(callback).toString()
-    console.assert(newFilter(test,callback).toString()===esperado,
+    console.assert(test.newFilter(callback).toString()===esperado,
     `Função: newFilter`,
-    `Resultado: ${newFilter(test,callback).toString()}`,
+    `Resultado: ${test.newFilter(callback).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newFilter(array, callback) {
+Array.prototype.newFilter = function (callback) {
     const newArray = []
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        if(callback(currentValue,index,array))
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        if(callback(currentValue,index,this))
             newArray.push(currentValue)
     }
     return newArray
@@ -73,17 +59,17 @@ testNewFilter(testArray)
 const testNewFind = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.find(callback).toString()
-    console.assert(newFind(test,callback).toString()===esperado,
+    console.assert(test.newFind(callback).toString()===esperado,
     `Função: newFind`,
-    `Resultado: ${newFind(test,callback).toString()}`,
+    `Resultado: ${test.newFind(callback).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newFind (array, callback) {
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        if(callback(currentValue,index,array))
+Array.prototype.newFind = function (callback) {
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        if(callback(currentValue,index,this))
         return currentValue
     }
 }
@@ -94,17 +80,17 @@ testNewFind(testArray)
 const testNewFindIndex = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.findIndex(callback).toString()
-    console.assert(newFindIndex(test,callback).toString()===esperado,
+    console.assert(test.newFindIndex(callback).toString()===esperado,
     `Função: newFindIndex`,
-    `Resultado: ${newFindIndex(test,callback).toString()}`,
+    `Resultado: ${test.newFindIndex(callback).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newFindIndex (array, callback) {
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        if(callback(currentValue,index,array))
+Array.prototype.newFindIndex = function (callback) {
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        if(callback(currentValue,index,this))
         return index
     }
 }
@@ -116,23 +102,23 @@ const testNewReduce = (test,c=null)=>{
     const callback = (a,b) => a+b
     const initialValue = c
     const esperado = test.reduce(callback,initialValue)
-    console.assert(newReduce(test,callback,initialValue)===esperado,
+    console.assert(test.newReduce(callback,initialValue)===esperado,
     `Função: newReduce`,
-    `Resultado: ${newReduce(test,callback,initialValue)}`,
+    `Resultado: ${test.newReduce(callback,initialValue)}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newReduce (array,callback,initialValue=null) {
-    if(array.length===0&&initialValue===null){
+Array.prototype.newReduce = function (callback,initialValue=null) {
+    if(this.length===0&&initialValue===null){
         throw new TypeError('Reduce possui um array vazio sem um valor inicial')
         return null
     }
-    let acc = initialValue===null?array[0]:initialValue
+    let acc = initialValue===null?this[0]:initialValue
     let initialIndex = initialValue===null?1:0
-    for (let index = initialIndex; index < array.length; index++){
-        const currentValue = array[index]
-        acc = callback(acc,currentValue,index,array)
+    for (let index = initialIndex; index < this.length; index++){
+        const currentValue = this[index]
+        acc = callback(acc,currentValue,index,this)
     }
     return acc
 }
@@ -147,17 +133,17 @@ testNewReduce(testArray)
 const testNewSome = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.some(callback).toString()
-    console.assert(newSome(test,callback).toString()===esperado,
+    console.assert(test.newSome(callback).toString()===esperado,
     `Função: newSome`,
-    `Resultado: ${newSome(test,callback).toString()}`,
+    `Resultado: ${test.newSome(callback).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newSome(array, callback) {
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        if(callback(currentValue,index,array))
+Array.prototype.newSome = function (callback) {
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        if(callback(currentValue,index,this))
             return true
     }
     return false
@@ -170,17 +156,17 @@ testNewSome(testArray)
 const testNewEvery = (test)=>{
     const callback = a =>a%2===0
     const esperado = test.every(callback).toString()
-    console.assert(newEvery(test,callback).toString()===esperado,
+    console.assert(test.newEvery(callback).toString()===esperado,
     `Função: newEvery`,
-    `Resultado: ${newEvery(test,callback).toString()}`,
+    `Resultado: ${test.newEvery(callback).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newEvery(array, callback) {
-    for (let index = 0; index < array.length; index++){
-        const currentValue = array[index]
-        return callback(currentValue,index,array)
+Array.prototype.newEvery = function (callback) {
+    for (let index = 0; index < this.length; index++){
+        const currentValue = this[index]
+        return callback(currentValue,index,this)
     }
 }
 testNewEvery([2,2,2,2])
@@ -190,24 +176,24 @@ testNewEvery(testArray)
 //--------------------------------------------------------------------------------------------------------------
 const testNewFill = (test,a,b,c)=>{
     const esperado = test.fill(a,b,c).toString()
-    console.assert(newFill(test,a,b,c).toString()===esperado,
+    console.assert(test.newFill(a,b,c).toString()===esperado,
     `Função: newFill`,
-    `Resultado: ${newFill(test,a,b,c).toString()}`,
+    `Resultado: ${test.newFill(a,b,c).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newFill(array,a,b=0,c=array.length) {
+Array.prototype.newFill = function (a,b=0,c=array.length) {
     if(b<0){
-        b=array.length+b    
+        b=this.length+b    
     }
     if(c<0){
-        c=array.length+c    
+        c=this.length+c    
     }
     for (let index = b; index < c; index++){
-        array[index] = a
+        this[index] = a
     }
-    return array
+    return this
 }
 testNewFill(testArray,2,1,3)
 
@@ -215,19 +201,19 @@ testNewFill(testArray,2,1,3)
 //--------------------------------------------------------------------------------------------------------------
 const testNewIncludes = (test,a,b)=>{
     const esperado = test.includes(a,b).toString()
-    console.assert(newIncludes(test,a,b).toString()===esperado,
+    console.assert(test.newIncludes(a,b).toString()===esperado,
     `Função: newIncludes`,
-    `Resultado: ${newIncludes(test,a,b).toString()}`,
+    `Resultado: ${test.newIncludes(a,b).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newIncludes(array,a,b=0) {
+Array.prototype.newIncludes = function (a,b=0) {
     if(b<0){
-        b = array.length+b
+        b = this.length+b
     }
-    for (let index = b; index < array.length; index++){
-        if(a===array[index])
+    for (let index = b; index < this.length; index++){
+        if(a===this[index])
             return true
     }
     return false
@@ -238,19 +224,19 @@ testNewIncludes(testArray,3,-3)
 //--------------------------------------------------------------------------------------------------------------
 const testNewIndexOf = (test,a,b)=>{
     const esperado = test.indexOf(a,b).toString()
-    console.assert(newIndexOf(test,a,b).toString()===esperado,
+    console.assert(test.newIndexOf(a,b).toString()===esperado,
     `Função: newIndexOf`,
-    `Resultado: ${newIndexOf(test,a,b).toString()}`,
+    `Resultado: ${test.newIndexOf(a,b).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newIndexOf(array,a,b=0) {
+Array.prototype.newIndexOf = function (a,b=0) {
     if(b<0){
-        b = array.length+b
+        b = this.length+b
     }
-    for (let index = b; index < array.length; index++){
-        if(a===array[index])
+    for (let index = b; index < this.length; index++){
+        if(a===this[index])
             return index
     }
     return -1
@@ -261,16 +247,16 @@ testNewIndexOf(testArray,3,1)
 //--------------------------------------------------------------------------------------------------------------
 const testNewConcat = (test,a,b)=>{
     const esperado = JSON.stringify(test.concat(a,b))
-    console.assert(JSON.stringify(newConcat(test,a,b))===esperado,
+    console.assert(JSON.stringify(test.newConcat(a,b))===esperado,
     `Função: newConcat`,
-    `Resultado: ${JSON.stringify(newConcat(test,a,b))}`,
+    `Resultado: ${JSON.stringify(test.newConcat(a,b))}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newConcat(...arguments) {
-    let newArray = [...arguments[0]]
-    for (let i = 1; i < arguments.length; i++){
+Array.prototype.newConcat = function (...arguments) {
+    let newArray = this
+    for (let i = 0; i < arguments.length; i++){
         if(Array.isArray(arguments[i])){
             for(let j = 0; j < arguments[i].length; j++){
                 newArray.push(arguments[i][j])
@@ -287,18 +273,18 @@ testNewConcat(testArray,3,[2,3,5],[2,2,2,2])
 //--------------------------------------------------------------------------------------------------------------
 const testNewJoin = (test,a)=>{
     const esperado = test.join(a)
-    console.assert(newJoin(test,a)===esperado,
+    console.assert(test.newJoin(a)===esperado,
     `Função: newJoin`,
-    `Resultado: ${newJoin(test,a)}`,
+    `Resultado: ${test.newJoin(a)}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newJoin(array,a=',') {
+Array.prototype.newJoin = function (a=',') {
     let string = ''
-    for(let i = 0; i < array.length; i++){
-        string+= array[i]
-        if(i!==array.length-1){
+    for(let i = 0; i < this.length; i++){
+        string+= this[i]
+        if(i!==this.length-1){
             string+= a
         }
     }
@@ -312,26 +298,26 @@ testNewJoin(testArray,',')
 //--------------------------------------------------------------------------------------------------------------
 const testNewSlice = (test,a,b)=>{
     const esperado = test.slice(a,b).toString()
-    console.assert(newSlice(test,a,b).toString()===esperado,
+    console.assert(test.newSlice(a,b).toString()===esperado,
     `Função: newSlice`,
-    `Resultado: ${newSlice(test,a,b).toString()}`,
+    `Resultado: ${test.newSlice(a,b).toString()}`,
     `Esperado: ${esperado}`
     )
 }
 
-function newSlice(array,a=0,b=array.length) {
+Array.prototype.newSlice = function (a=0,b=array.length) {
     if(a<0){
-        a=array.length+a    
+        a=this.length+a    
     }
     if(b<0){
-        b=array.length+b    
+        b=this.length+b    
     }
-    if(b>array.length){
-        b=array.length
+    if(b>this.length){
+        b=this.length
     }
     let newArray = []
     for (let index = a; index < b; index++){
-        newArray.push(array[index])
+        newArray.push(this[index])
     }
     return newArray
 }
@@ -341,9 +327,9 @@ testNewSlice(testArray,2,4)
 //--------------------------------------------------------------------------------------------------------------
 const testNewFlat = (test,a)=>{
     const esperado = JSON.stringify(test.flat(a))
-    console.assert(JSON.stringify(newFlat(test,a))===esperado,
+    console.assert(JSON.stringify(test.newFlat(a))===esperado,
     `Função: newFlat`,
-    `Resultado: ${JSON.stringify(newFlat(test,a))}`,
+    `Resultado: ${JSON.stringify(test.newFlat(a))}`,
     `Esperado: ${esperado}`
     )
 }
@@ -371,15 +357,15 @@ testNewFlat([5,,2,3,[2,3],[3,5,[3,4,5,[1,2,4]]]],3)
 //--------------------------------------------------------------------------------------------------------------
 const testNewFlatMap = (test,callback)=>{
     const esperado = JSON.stringify(test.flatMap(callback))
-    console.assert(JSON.stringify(newFlatMap(test,callback))===esperado,
+    console.assert(JSON.stringify(test.newFlatMap(callback))===esperado,
     `Função: newFlatMap`,
-    `Resultado: ${JSON.stringify(newFlatMap(test,callback))}`,
+    `Resultado: ${JSON.stringify(test.newFlatMap(callback))}`,
     `Esperado: ${esperado}`
     )
 }
 
 function newFlatMap(array,callback) {
-    let arrayMap = newMap(array, callback)
+    let arrayMap = array.newMap(callback)
     let newArray=[]
     for(let i = 0; i < arrayMap.length; i++){
         if(Array.isArray(arrayMap[i])){
