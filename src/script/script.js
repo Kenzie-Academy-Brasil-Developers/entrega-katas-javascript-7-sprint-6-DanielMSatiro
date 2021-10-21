@@ -334,18 +334,18 @@ const testNewFlat = (test,a)=>{
     )
 }
 
-function newFlat(array,a=1) {
+Array.prototype.newFlat = function (a=1) {
     let newArray=[]
     let nivel = a-1
-    for(let i = 0; i < array.length; i++){
-        if(Array.isArray(array[i])&&nivel>=0){
+    for(let i = 0; i < this.length; i++){
+        if(Array.isArray(this[i])&&nivel>=0){
             if(!nivel){
-                newArray = newConcat(newArray,array[i])
+                newArray = newArray.newConcat(this[i])
             } else {
-                newArray = newConcat(newArray,newFlat(array[i],nivel))
+                newArray = newArray.newConcat(this[i].newFlat(nivel))
             }
-        } else if(array[i]!==undefined){
-            newArray.push(array[i])
+        } else if(this[i]!==undefined){
+            newArray.push(this[i])
         }
     }
     return newArray
@@ -364,12 +364,12 @@ const testNewFlatMap = (test,callback)=>{
     )
 }
 
-function newFlatMap(array,callback) {
-    let arrayMap = array.newMap(callback)
+Array.prototype.newFlatMap = function (callback) {
+    let arrayMap = this.newMap(callback)
     let newArray=[]
     for(let i = 0; i < arrayMap.length; i++){
         if(Array.isArray(arrayMap[i])){
-            newArray = newConcat(newArray,arrayMap[i])
+            newArray = newArray.newConcat(arrayMap[i])
         } else if(arrayMap[i]!==undefined){
             newArray.push(arrayMap[i])
         }
